@@ -45,9 +45,6 @@ func move_tween(dir):
 func _on_Coin_area_entered(area: Area2D):
 	var coin: Area2D = get_parent().get_node("Coin")
 	var knight: Area2D = get_parent().get_node("Knight")
-	var sfx: AudioStreamPlayer = get_parent().get_node("CoinSfx")
-	sfx.stream.loop = false
-	sfx.play()
 	coin.queue_free()
 	knight.queue_free()
 
