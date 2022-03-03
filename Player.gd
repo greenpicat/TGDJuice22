@@ -51,9 +51,14 @@ func _on_Coin_area_entered(area: Area2D):
 
 func _on_Knight_area_entered(area):
 	print("Hit!")
-	var knight: Area2D = get_parent().get_node("Knight")
 	var sfx: AudioStreamPlayer = get_parent().get_node("HitSfx")
 	sfx.stream.loop = false
 	sfx.play()
-	knight.queue_free()
-	queue_free()
+	$AnimatedSprite.play("death")
+	
+
+func _on_animation_finished():
+	if $AnimatedSprite.animation == "death":
+		var knight: Area2D = get_parent().get_node("Knight")
+		queue_free()
+		knight.queue_free()
