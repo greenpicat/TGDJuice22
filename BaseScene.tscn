@@ -1,9 +1,8 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Coin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://0x72_DungeonTilesetII_v1.4.png" type="Texture" id=3]
-[ext_resource path="res://swordhit.ogg" type="AudioStream" id=4]
 [ext_resource path="res://coin.ogg" type="AudioStream" id=5]
 [ext_resource path="res://Knight.gd" type="Script" id=6]
 
@@ -487,7 +486,6 @@ shape = SubResource( 19 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
 position = Vector2( 0, -8 )
 frames = SubResource( 22 )
-frame = 1
 playing = true
 
 [node name="Knight" type="Area2D" parent="."]
@@ -501,16 +499,12 @@ shape = SubResource( 23 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Knight"]
 position = Vector2( 0, -8 )
 frames = SubResource( 26 )
-frame = 1
 playing = true
 
 [node name="Tween" type="Tween" parent="Knight"]
 
 [node name="Coin" parent="." instance=ExtResource( 2 )]
 position = Vector2( 232.927, 78.729 )
-
-[node name="HitSfx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
 
 [node name="CoinSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
