@@ -9,6 +9,7 @@ var inputs = {"right": Vector2.RIGHT,
 "down": Vector2.DOWN}
 onready var ray = $RayCast2D
 onready var tween = $Tween
+onready var sprite = $AnimatedSprite
 export var speed = 3
 
 
@@ -30,11 +31,33 @@ func move(dir):
 	if !ray.is_colliding():
 		move_tween(inputs[dir])
 		emit_signal("movement", position)
+	else:
+		var sfx = get_parent().get_node("ThudSfx")
+		sfx.stream.loop = false
+		sfx.play()
+		squish_tween(inputs[dir])
 		
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
 		position, position + dir * tile_size,
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.start()
+
+func squish_tween(dir: Vector2):
+	tween.interpolate_property(sprite, "scale", 
+	sprite.scale, sprite.scale + (dir.abs() * -0.5), 
+	0.15, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "position",
+	position, position + (dir * tile_size/2),
+	0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	
+	
+	tween.interpolate_property(sprite, "scale", 
+	sprite.scale + (dir.abs() * -0.5), sprite.scale, 
+	0.15, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 0.15)
+	tween.interpolate_property(self, "position",
+	position + (dir * tile_size/2), position,
+	0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 0.1)
 	tween.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
