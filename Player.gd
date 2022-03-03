@@ -43,14 +43,25 @@ func move_tween(dir):
 
 
 func _on_Coin_area_entered(area: Area2D):
-	var coin: Area2D = get_parent().get_node("Coin")
 	var knight: Area2D = get_parent().get_node("Knight")
+	knight.get_node("AnimatedSprite").play("death")
+	collect_coin()
+	
+func collect_coin():
+	var coin: Area2D = get_parent().get_node("Coin")
+	var light = get_parent().get_node("CoinLight")
 	var sfx: AudioStreamPlayer = get_parent().get_node("CoinSfx")
+	coin.queue_free()
 	sfx.stream.loop = false
 	sfx.play()
-	coin.queue_free()
-	knight.queue_free()
-
+	tween.interpolate_property(light, "energy",
+		0, 0.95,
+		0.3, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.interpolate_property(light, "energy",
+		0.95, 0,
+		0.3, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 0.3)
+	tween.start()
+	
 
 func _on_Knight_area_entered(area):
 	print("Hit!")

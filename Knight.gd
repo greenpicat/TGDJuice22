@@ -39,3 +39,8 @@ func move_tween(dir):
 		position, position + dir * tile_size,
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
+
+
+func _on_animation_finished():
+	if $AnimatedSprite.animation == "death":
+		queue_free()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Coin.tscn" type="PackedScene" id=2]
 [ext_resource path="res://0x72_DungeonTilesetII_v1.4.png" type="Texture" id=3]
+[ext_resource path="res://gradient.bmp" type="Texture" id=4]
 [ext_resource path="res://coin.ogg" type="AudioStream" id=5]
 [ext_resource path="res://Knight.gd" type="Script" id=6]
 
@@ -442,12 +443,32 @@ flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 144, 64, 16, 32 )
 
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 368, 64, 16, 32 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 384, 64, 16, 32 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 400, 64, 16, 32 )
+
 [sub_resource type="SpriteFrames" id=26]
 animations = [ {
 "frames": [ SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
 "name": "default",
 "speed": 2.0
+}, {
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
+"loop": true,
+"name": "death",
+"speed": 5.0
 } ]
 
 [node name="Node2D" type="Node2D"]
@@ -486,6 +507,7 @@ shape = SubResource( 19 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
 position = Vector2( 0, -8 )
 frames = SubResource( 22 )
+frame = 1
 playing = true
 
 [node name="Knight" type="Area2D" parent="."]
@@ -509,6 +531,14 @@ position = Vector2( 232.927, 78.729 )
 [node name="CoinSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 
+[node name="CoinLight" type="Light2D" parent="."]
+position = Vector2( 1.0091, -8.0169 )
+scale = Vector2( 1068, 382.006 )
+texture = ExtResource( 4 )
+color = Color( 1, 0.835294, 0.34902, 1 )
+energy = 0.0
+
 [connection signal="movement" from="Player" to="Knight" method="_on_Player_movement"]
 [connection signal="area_entered" from="Knight" to="Player" method="_on_Knight_area_entered"]
+[connection signal="animation_finished" from="Knight/AnimatedSprite" to="Knight" method="_on_animation_finished"]
 [connection signal="area_entered" from="Coin" to="Player" method="_on_Coin_area_entered"]
